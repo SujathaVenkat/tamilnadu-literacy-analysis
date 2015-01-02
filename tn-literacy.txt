@@ -1,0 +1,244 @@
+
+# -------------------------------------------------------------------------------------------------------------------------------------
+#
+# Statistical learning of Tamil Nadu literacy using R
+# Designed and developed by Tinniam V Ganesh
+# Date 2 Jan 2015
+#
+# --------------------------------------------------------------------------------------------------------------------------------------
+
+# Read the Tamil nadu literacy related data for Total Tamil Nadu only
+edu = read.csv("tamilnadu.csv") 
+
+# Create as a matrix
+edumat = as.matrix(edu)
+
+tnTotal = edumat[2:19,7:28]
+
+# Take transpose as this is necessary for plotting bar charts
+tnmat = t(tnTotal)
+
+# Set the scipen option to format the y axis (otherwise prints as e^05 etc.)
+getOption("scipen")
+opt <- options("scipen" = 20)
+getOption("scipen")
+
+# Plot the total Males vs Females in Tamil Nadu
+jpeg('tntotal.jpg')
+barplot(as.numeric(tnmat[3:4,]),names.arg=rep(tnmat[1,],2),main ="Total population in Tamil Nadu - Males vs. Females", 
+xlab = "Age", ylab= "Number", col =c("red","darkblue"), legend= c("Males","Females"),beside=TRUE) 
+dev.off()
+
+# Plot the total Males vs Females attending educational institutions in Tamil Nadu
+jpeg('tnedu.jpg')
+barplot(as.numeric(tnmat[6:7,]),names.arg=rep(tnmat[1,],each=2),main ="Persons attending educational institutions in TN - Males vs. Females", 
+xlab = "Age", ylab= "Number", col =c("red","darkblue"), legend= c("Males","Females"),beside=TRUE)   
+dev.off()
+
+#Create a vector of total Males & Females
+totalM = tnmat[3,]
+totalF = tnmat[4,]
+
+#Create a vector of males & females attending education institution
+eduM = tnmat[6,]
+eduF = tnmat[7,]
+
+#Calculate percent of males attending education of total
+percentM = round(as.numeric(eduM) *100/as.numeric(totalM),1)
+jpeg('percenteduM.jpg')
+barplot(percentM,names.arg=tnmat[1,],main ="Percentage males attending educational institutions in TN ", 
+xlab = "Age", ylab= "Percentage", col ="lightblue", legend= c("Males")) 
+dev.off()
+
+#Calculate percent of females attending education of total
+percentF = round(as.numeric(eduF) *100/as.numeric(totalF),1)
+jpeg('percenteduF.jpg')
+barplot(percentF,names.arg=tnmat[1,],main ="Percentage females attending educational institutions in TN ", 
+xlab = "Age", ylab= "Percentage", col ="lightblue", legend= c("Females"))
+dev.off()
+
+# Plot the total Males vs Females attending schools in Tamil Nadu
+jpeg('tnschool.jpg')
+barplot(as.numeric(tnmat[9:10,]),names.arg=rep(tnmat[1,],each=2),main ="Persons attending schools in TN - Boys vs. Girls", 
+xlab = "Age", ylab= "Number", col =c("red","darkblue"),legend= c("Males","Females"), beside=TRUE)  
+dev.off()
+
+# Plot the total persons attending colleges in Tamil Nadu
+jpeg('tncollege.jpg')
+barplot(as.numeric(tnmat[12:13,]),names.arg=rep(tnmat[1,],each=2),main ="Persons attending college - Males vs. Females", 
+xlab = "Age", ylab= "Number", col =c("red","darkblue"),legend= c("Males","Females"), beside=TRUE)   #ok
+dev.off()
+
+#Pie chart for Tamil Nadu  of  persons between 15- 19 years attending school 
+slices <- c(tnmat[8,12],tnmat[11,12],tnmat[14,12],tnmat[17,12],tnmat[20,12])
+percentlabels <- round(as.numeric(slices) *100/as.numeric(tnmat[5,12],1))
+pielabels<- paste(percentlabels, "%", sep="")
+cols <- c("blue","green","cyan","red", "grey30")
+jpeg('tnschool-1.jpg')
+pie(as.numeric(slices), main="Tamil Nadu Literacy 15-19 years", col=cols, labels=pielabels, cex=0.8)
+legend("topright", c("School","College","Vocational","Literacy center","Other"), cex=0.8, fill=cols)
+dev.off()
+
+
+#Pie chart for Tamil Nadu  of  persons between 20 - 24 years attending school 
+slices <- c(tnmat[8,13],tnmat[11,13],tnmat[14,13],tnmat[17,13],tnmat[20,13])
+percentlabels <- round(as.numeric(slices) *100/as.numeric(tnmat[5,13],1))
+pielabels<- paste(percentlabels, "%", sep="")
+cols <- c("blue","green","cyan","red", "grey30")
+jpeg('tnschool-2.jpg')
+pie(as.numeric(slices), main="Tamil Nadu Literacy 20-24 years", col=cols, labels=pielabels, cex=0.8)
+legend("topright", c("School","College","Vocational","Literacy center","Other"), cex=0.8, fill=cols)
+dev.off()
+
+###############################################################################################################################################
+
+# Education in rural Tamil Nadu
+tnRural = edumat[21:38,7:28]
+
+# Take transpose as this is necessary for plotting bar charts
+ruralmat = t(tnRural)
+
+#Total population in rural Tamil Nadu
+jpeg('ruraltotal.jpg')
+barplot(as.numeric(ruralmat[3:4,]),names.arg=rep(ruralmat[1,],2),main ="Total Rural population - Males vs. Females", 
+xlab = "Age", ylab= "Number", col =c("red","darkblue"), legend= c("Males","Females"),beside=TRUE) #works ok
+dev.off()
+
+#Total persons attending educational institutions in rural Tamil Nadu
+jpeg('ruraledu.jpg')
+barplot(as.numeric(ruralmat[6:7,]),names.arg=rep(ruralmat[1,],each=2),main ="Persons attending educational institutions rural Tamil Nadu- Males vs. Females", 
+xlab = "Age", ylab= "Number", col =c("red","darkblue"), legend= c("Males","Females"),beside=TRUE)   
+dev.off()
+
+#Create a vector of total Males & Females in Rural TN
+totalruralM = ruralmat[3,]
+totalruralF = ruralmat[4,]
+
+#Create a vector of males & females attending education institution
+edururalM = ruralmat[6,]
+edururalF = ruralmat[7,]
+
+#Calculate percent of rural males attending education of total
+percentruralM = round(as.numeric(edururalM) *100/as.numeric(totalruralM),1)
+jpeg('percentruralM.jpg')
+barplot(percentruralM,names.arg=ruralmat[1,],main ="Percentage males attending educational institutions in rural TN ", 
+xlab = "Age", ylab= "Percentage", col ="lightblue", legend= c("Males")) 
+dev.off()
+
+
+#Calculate percent of rural females attending education of total
+percentruralF = round(as.numeric(edururalF) *100/as.numeric(totalruralF),1)
+jpeg('percentruralF.jpg')
+barplot(percentF,names.arg=ruralmat[1,],main ="Percentage females attending educational institutions in rural TN ", 
+xlab = "Age", ylab= "Percentage", col ="lightblue", legend= c("Females"))
+dev.off()
+
+#Total persons attending schools in rural Tamil Nadu
+jpeg('ruralschool.jpg')
+barplot(as.numeric(ruralmat[9:10,]),names.arg=rep(ruralmat[1,],each=2),main ="Persons attending schools in rural Tamil Nadu- Males vs. Females", 
+xlab = "Age", ylab= "Number", col =c("red","darkblue"),legend= c("Males","Females"), beside=TRUE)   #ok
+dev.off()
+
+#Total people attending college in rural Tamil Nadu
+jpeg('ruralcollege.jpg')
+barplot(as.numeric(ruralmat[12:13,]),names.arg=rep(ruralmat[1,],each=2),main ="Persons attending college in rural Tamil Nadu - Males vs. Females", 
+xlab = "Age", ylab= "Number", col =c("red","darkblue"),legend= c("Males","Females"), beside=TRUE)   #ok
+dev.off()
+
+#Pie chart of people attending schools in rural Tamil Nadu between  15- 19 years
+slices <- c(ruralmat[8,12],ruralmat[11,12],ruralmat[14,12],ruralmat[17,12],ruralmat[20,12])
+percentlabels <- round(as.numeric(slices) *100/as.numeric(ruralmat[5,12],1))
+pielabels<- paste(percentlabels, "%", sep="")
+cols <- c("blue","green","cyan","red", "grey30")
+jpeg('rural-1.jpg')
+pie(as.numeric(slices), main="Tamil Nadu Rural Literacy 15-19 years", col=cols, labels=pielabels, cex=0.8)
+legend("topright", c("School","College","Vocational","Literacy center","Other"), cex=0.8, fill=cols)
+dev.off()
+
+#Pie chart for Rural Tamil Nadu 20 - 24 years attending school
+slices <- c(ruralmat[8,13],ruralmat[11,13],ruralmat[14,13],ruralmat[17,13],ruralmat[20,13])
+percentlabels <- round(as.numeric(slices) *100/as.numeric(ruralmat[5,13],1))
+pielabels<- paste(percentlabels, "%", sep="")
+cols <- c("blue","green","cyan","red", "grey30")
+jpeg('rural-2.jpg')
+pie(as.numeric(slices), main="Tamil Nadu Rural Literacy 20-24 years", col=cols, labels=pielabels, cex=0.8)
+legend("topright", c("School","College","Vocational","Literacy center","Other"), cex=0.8, fill=cols)
+dev.off()
+
+#########################################################################################################################################S
+
+# Education in urban Tamil Nadu
+tnUrban = edumat[40:57,7:28]
+
+# Take the transpose
+urbanmat = t(tnUrban)
+
+#Total population in urban Tamil Nadu
+jpeg('urbantotal.jpg')
+barplot(as.numeric(urbanmat[3:4,]),names.arg=rep(urbanmat[1,],2),main ="Total Urban population in Tamil Nadu  - Males vs. Females", 
+xlab = "Age", ylab= "Number", col =c("red","darkblue"), legend= c("Males","Females"),beside=TRUE) #works ok
+dev.off()
+
+#Total population attending educational institutions in rural Tamil Nadu
+jpeg('urbanedu.jpg')
+barplot(as.numeric(urbanmat[6:7,]),names.arg=rep(urbanmat[1,],each=2),main ="Persons attending educational institutions Urban Tamil Nadu Males vs. Females", 
+xlab = "Age", ylab= "Number", col =c("red","darkblue"), legend= c("Males","Females"),beside=TRUE)   #ok
+dev.off()
+
+#Create a vector of total Males & Females in Urban TN
+totalurbanM = urbanmat[3,]
+totalurbanF = urbanmat[4,]
+
+#Create a vector of males & females attending education institution
+eduurbanM = urbanmat[6,]
+eduurbanF = urbanmat[7,]
+
+#Calculate percent of urban males attending education of total
+percenturbanM = round(as.numeric(eduurbanM) *100/as.numeric(totalurbanM),1)
+jpeg('percenturbanM.jpg')
+barplot(percenturbanM,names.arg=urbanmat[1,],main ="Percentage males attending educational institutions in urban TN ", 
+xlab = "Age", ylab= "Percentage", col ="lightblue", legend= c("Males")) 
+dev.off()
+
+
+#Calculate percent of urban females attending education of total
+percenturbanF = round(as.numeric(eduurbanF) *100/as.numeric(totalurbanF),1)
+jpeg('percenturbanF.jpg')
+barplot(percenturbanF,names.arg=urbanmat[1,],main ="Percentage females attending educational institutions in urban TN ", 
+xlab = "Age", ylab= "Percentage", col ="lightblue", legend= c("Females"))
+dev.off()
+
+#Total people attending school in urban Tamil Nadu
+jpeg('urbanschool.jpg')
+barplot(as.numeric(urbanmat[9:10,]),names.arg=rep(urbanmat[1,],each=2),main ="Persons attending schools in urban Tamil Nadu- Males vs. Females", 
+xlab = "Age", ylab= "Number", col =c("red","darkblue"),legend= c("Males","Females"), beside=TRUE)   #ok
+dev.off()
+
+
+#Total people attending college in urban Tamil Nadu
+jpeg('urbancollege.jpg')
+barplot(as.numeric(urbanmat[12:13,]),names.arg=rep(urbanmat[1,],each=2),main ="Persons attending college in urban Tamil Nadu - Males vs. Females", 
+xlab = "Age", ylab= "Number", col =c("red","darkblue"),legend= c("Males","Females"), beside=TRUE)   #ok
+dev.off()
+
+#Pie chart of people attending schools in urban Tamil Nadu between  15- 19 years					 
+slices <- c(urbanmat[8,12],urbanmat[11,12],urbanmat[14,12],urbanmat[17,12],urbanmat[20,12])
+percentlabels <- round(as.numeric(slices) *100/as.numeric(urbanmat[5,12],1))
+pielabels<- paste(percentlabels, "%", sep="")
+cols <- c("blue","green","cyan","red", "grey30")
+jpeg('urban-1.jpg')
+pie(as.numeric(slices), main="Urban Literacy 15-19 years", col=cols, labels=pielabels, cex=0.8)
+legend("topright", c("School","College","Vocational","Literacy center","Other"), cex=0.8, fill=cols)
+dev.off()
+
+#Pie chart of people attending schools in urban Tamil Nadu between  20 - 24 years
+slices <- c(urbanmat[8,13],urbanmat[11,13],urbanmat[14,13],urbanmat[17,13],urbanmat[20,13])
+percentlabels <- round(as.numeric(slices) *100/as.numeric(urbanmat[5,13],1))
+pielabels<- paste(percentlabels, "%", sep="")
+cols <- c("blue","green","cyan","red", "grey30")
+jpeg('urban-2.jpg')
+pie(as.numeric(slices), main="Urban Literacy 20-24 years", col=cols, labels=pielabels, cex=0.8)
+legend("topright", c("School","College","Vocational","Literacy center","Other"), cex=0.8, fill=cols)
+dev.off()
+
+
